@@ -71,14 +71,19 @@
 .main__container {
     display: flex;
     height: 50vh;
+    background-color: rgb(98, 98, 98);
     border: 2px solid white;
     padding: 0px 20px;
     align-items: center;
     overflow: hidden;
     
+    
 }
 
 .main__container h1 {
+    top: 60px;
     color: white;
     white-space: pre;
+
 }
+

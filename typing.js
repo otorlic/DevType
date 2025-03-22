@@ -1,5 +1,6 @@
+const typingBox = document.getElementById("codeChunk");
+
 let index = 0;
-let i = 0;
 
 const code = [
     "for (int i = 0; i < 200; i++) {\n\tbuffer[i] = 0;\n}",
@@ -9,23 +10,46 @@ const code = [
 ];
 
 let chunk = code[index];
-let currentChar = 0;
+
 function codeChooser() {
+
+    //start by clearing out the old code chunk
+    typingBox.innerHTML = "";
+
+    //randomly select a code chunk
     index = Math.floor(Math.random() * code.length);
-    document.getElementById("codeChunk").innerHTML = "";
-    chunk = code[index];
-    currentChar = 0;
-}
+    chunk = code[index].split(""); //then split it so each character is its own index
 
+    //take each character of the code chunk and place it in a span and add it to the typing box
+    for (let i = 0; i < chunk.length; i++) {
+        typingBox.innerHTML += `<span>${chunk[i]}</span>`;
+    }
 
+    /* alternative found online */
 
-document.body.addEventListener("keypress", type);
-
-
-function type() {
+    // code[index].split("").forEach(char => {
+    //     let span = `<span>${char}</span>`
+    //     typingBox.innerHTML += span;
+    // });
     
-    let letter = chunk.charAt(currentChar);
-    document.getElementById("codeChunk").innerHTML += letter;
-    currentChar++;
+}
+
+
+
+document.body.addEventListener("keydown", type);
+
+let currCharIndex = 0;
+function type(event) {
+
+    let letter = code[index].charAt(currCharIndex); // get the letter that should be typed
+    let pressed = event.key; // get the letter that was typed
+    
+    // if the pressed letter is the same as the needed letter, print it
+    if (pressed == letter) {
+        typingBox.innerHTML += pressed;
+        currCharIndex++; // increase index to next letter
+    }
+    
 
 }
+

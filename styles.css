@@ -62,7 +62,7 @@
 
 .main {
     background-color: #6a88bd;
-    padding: 200px 150px;
+    padding: 150px 150px;
     height: 120vh - 80px;
     position: relative;
     
@@ -73,17 +73,27 @@
     height: 50vh;
     background-color: rgb(98, 98, 98);
     border: 2px solid white;
-    padding: 0px 20px;
-    align-items: center;
+    
+    padding: 100px 20px;
     overflow: hidden;
     
     
 }
 
-.main__container h1 {
+.main__container p {
     top: 60px;
+    font-size: 2rem;
     color: white;
     white-space: pre;
+
+}
+
+.main__container p span{
+    background-color: red;
+    border-radius: 10%;
+    margin: 0px 1px;
+    padding: 0px 1px;
+    opacity: 100%;
 
 }
 

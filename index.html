@@ -6,7 +6,7 @@
     <title>DevType</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body onload="codeChooser()">
 
     <!-- Navbar Section -->
 
@@ -28,9 +28,10 @@
 
     <div class="main">
         <div class="main__container" id="test">
-            <h1 id="codeChunk" onload="codeChooser()"></h1>
+            <p id="codeChunk"></p>
         </div>
         <button type="button" onclick="codeChooser()">Change Code</button>
+        
     </div>
 
     <script src="typing.js"></script>

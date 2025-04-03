@@ -89,11 +89,20 @@
 }
 
 .main__container p span{
-    background-color: red;
+    /*background-color: red;*/
     border-radius: 10%;
     margin: 0px 1px;
     padding: 0px 1px;
     opacity: 100%;
 
 }
+
+.main__container p span.correct {
+    background-color: green;
+}
+
+.main__container p span.incorrect {
+    background-color: red;
+}
+
 

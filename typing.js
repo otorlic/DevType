@@ -36,20 +36,87 @@ function codeChooser() {
 
 
 
-document.body.addEventListener("keydown", type);
+// document.body.addEventListener("keydown", type);
 
 let currCharIndex = 0;
+// function type(event) {
+
+//     let chars = document.querySelectorAll(".main__container p").querySelectorAll("span");
+
+//     let letter = `<span>${code[index].charAt(currCharIndex)}</span>`; // get the letter that should be typed
+//     let typedChar = `<span>${event.key}</span>`; // get the letter that was typed
+    
+//     // if the pressed letter is the same as the needed letter, print it
+//     if (typedChar == letter) {
+//         typingBox.innerHTML += typedChar;
+//         currCharIndex++; // increase index to next letter
+//     }
+
+//     if(chars[currCharIndex].innerText == typedChar) {
+//         chars[currCharIndex].classList.add("correct");
+//     } else {
+//         chars[currCharIndex].classList.add("incorrect");
+//     }
+//     currCharIndex++;
+    
+
+// }
+
+document.body.addEventListener("keydown", type);
+
 function type(event) {
 
-    let letter = code[index].charAt(currCharIndex); // get the letter that should be typed
-    let pressed = event.key; // get the letter that was typed
+    let charSpans = typingBox.querySelectorAll("span");
+
+    //let typedChar = `<span>${event.key}</span>`; // get the letter that was typed
+
+    let chars = code[index];
+
+    let typedChar = document.querySelector(".main .typebox").value.split("")[currCharIndex];
+
+    // if (currCharIndex < chars.length - 1) {
+    //     if (chars[currCharIndex].innerText == typedChar) {
+    //         document.getElementById("codeChunk").style.backgroundColor = "green";
+    //         //chars[currCharIndex].style.color = "red"; //.add("correct");
+    //     } else {
+
+    //         document.getElementById("codeChunk").style.backgroundColor = "red";
+
+    //         //chars[currCharIndex].classList.add("incorrect");
+    //     }
+    // }
+
+    //charSpans[currCharIndex].style.backgroundColor = "white";
     
-    // if the pressed letter is the same as the needed letter, print it
-    if (pressed == letter) {
-        typingBox.innerHTML += pressed;
-        currCharIndex++; // increase index to next letter
+    if (event.key == chars.charAt(currCharIndex)) {
+        //document.getElementById("codeChunk").style.backgroundColor = "green";
+        //chars[currCharIndex].style.color = "red"; //.add("correct");
+    } else {
+
+        //document.getElementById("codeChunk").style.backgroundColor = "red";
+        charSpans[currCharIndex].style.backgroundColor = "red";
+
+        //chars[currCharIndex].classList.add("incorrect");
     }
+    currCharIndex++;
     
 
 }
 
+
+// document.body.addEventListener("keydown", reveal);
+// function reveal(event) {
+//     if (event.key == 'f') {
+//         document.getElementById("codeChunk").style.backgroundColor = "red";
+//     }
+    
+// }
+
+
+
+
+
+
+
+
+codeChooser();

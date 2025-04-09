@@ -1,6 +1,6 @@
 const typingBox = document.getElementById("codeChunk");
 
-let index = 0;
+let index, currCharIndex = 0;
 
 const code = [
     "for (int i = 0; i < 200; i++) {\n\tbuffer[i] = 0;\n}",
@@ -22,101 +22,79 @@ function codeChooser() {
 
     //take each character of the code chunk and place it in a span and add it to the typing box
     for (let i = 0; i < chunk.length; i++) {
-        typingBox.innerHTML += `<span>${chunk[i]}</span>`;
+        if (chunk[i] === '\n') { // if the span contains the new line character,
+            typingBox.innerHTML += `<span>${"    " + chunk[i]}</span>`; // then add spaces to make it appear longer
+        } else if (chunk[i] === '\t') {
+            typingBox.innerHTML += `<span>${"    "}</span>`; // then add spaces to make it appear longer
+        } else {
+            typingBox.innerHTML += `<span>${chunk[i]}</span>`; // if not, just wrap it in a span normally
+        }
     }
 
-    /* alternative found online */
-
-    // code[index].split("").forEach(char => {
-    //     let span = `<span>${char}</span>`
-    //     typingBox.innerHTML += span;
-    // });
+    currCharIndex = 0;
     
 }
 
 
-
-// document.body.addEventListener("keydown", type);
-
-let currCharIndex = 0;
-// function type(event) {
-
-//     let chars = document.querySelectorAll(".main__container p").querySelectorAll("span");
-
-//     let letter = `<span>${code[index].charAt(currCharIndex)}</span>`; // get the letter that should be typed
-//     let typedChar = `<span>${event.key}</span>`; // get the letter that was typed
-    
-//     // if the pressed letter is the same as the needed letter, print it
-//     if (typedChar == letter) {
-//         typingBox.innerHTML += typedChar;
-//         currCharIndex++; // increase index to next letter
-//     }
-
-//     if(chars[currCharIndex].innerText == typedChar) {
-//         chars[currCharIndex].classList.add("correct");
-//     } else {
-//         chars[currCharIndex].classList.add("incorrect");
-//     }
-//     currCharIndex++;
-    
-
-// }
-
-document.body.addEventListener("keydown", type);
-
-function type(event) {
+document.body.addEventListener("keydown", function(e) {
 
     let charSpans = typingBox.querySelectorAll("span");
 
-    //let typedChar = `<span>${event.key}</span>`; // get the letter that was typed
-
     let chars = code[index];
 
-    let typedChar = document.querySelector(".main .typebox").value.split("")[currCharIndex];
-
-    // if (currCharIndex < chars.length - 1) {
-    //     if (chars[currCharIndex].innerText == typedChar) {
-    //         document.getElementById("codeChunk").style.backgroundColor = "green";
-    //         //chars[currCharIndex].style.color = "red"; //.add("correct");
-    //     } else {
-
-    //         document.getElementById("codeChunk").style.backgroundColor = "red";
-
-    //         //chars[currCharIndex].classList.add("incorrect");
-    //     }
-    // }
-
-    //charSpans[currCharIndex].style.backgroundColor = "white";
-    
-    if (event.key == chars.charAt(currCharIndex)) {
-        //document.getElementById("codeChunk").style.backgroundColor = "green";
-        //chars[currCharIndex].style.color = "red"; //.add("correct");
-    } else {
-
-        //document.getElementById("codeChunk").style.backgroundColor = "red";
-        charSpans[currCharIndex].style.backgroundColor = "red";
-
-        //chars[currCharIndex].classList.add("incorrect");
+    charSpans[currCharIndex].classList.add("active");
+    if (currCharIndex > 0) {
+        charSpans[currCharIndex - 1].classList.add("inactive");
     }
-    currCharIndex++;
+    
+    if (e.shiftKey) { // For uppercase characters
+        
+        if (e.key === 'Shift') { // incredibly sloppy way to make the shift key not be counted as character
+            // this is bad, find another way
+        } else if (e.key === chars.charAt(currCharIndex)) {
+            charSpans[currCharIndex].style.backgroundColor = "green";
+            currCharIndex++;
+        } else {
+            charSpans[currCharIndex].style.backgroundColor = "red";
+            currCharIndex++;
+        }
+        
+        
+    } else if (e.key === 'Backspace') {
+        if (currCharIndex > 0) { // dec index unless we are at the start of the code chunk
+            currCharIndex--;
+        }
+        charSpans[currCharIndex].style.backgroundColor = "#626262"; //remove any color around the character
+        
+    } else if (e.key === 'Enter') {
+        if (chars.charAt(currCharIndex) === '\n') {
+            charSpans[currCharIndex].style.backgroundColor = "green";
+        } else {
+            charSpans[currCharIndex].style.backgroundColor = "red";
+        }
+        currCharIndex++;
+
+    } else if (e.key === 'Tab') {
+        if (chars.charAt(currCharIndex) === '\t') {
+            charSpans[currCharIndex].style.backgroundColor = "green";
+        } else {
+            charSpans[currCharIndex].style.backgroundColor = "red";
+        }
+        currCharIndex++;
+    
+    } else { // Normal case, just typing character
+
+        if (e.key === chars.charAt(currCharIndex)) {
+            charSpans[currCharIndex].style.backgroundColor = "green";
+        } else {
+            charSpans[currCharIndex].style.backgroundColor = "red";
+        }
+        currCharIndex++;
+    }
+
     
 
-}
-
-
-// document.body.addEventListener("keydown", reveal);
-// function reveal(event) {
-//     if (event.key == 'f') {
-//         document.getElementById("codeChunk").style.backgroundColor = "red";
-//     }
-    
-// }
-
-
-
-
-
-
+});
 
 
 codeChooser();

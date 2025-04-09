@@ -10,7 +10,7 @@
 /* Navbar CSS */
 
 .navbar {
-    background-color: rgb(51, 51, 96);
+    background-color: #333360;
     height: 80px;
     width: 100vw;
     display: flex;
@@ -71,7 +71,7 @@
 .main__container {
     display: flex;
     height: 50vh;
-    background-color: rgb(98, 98, 98);
+    background-color: #626262;
     border: 2px solid white;
     
     padding: 100px 20px;
@@ -88,7 +88,7 @@
 
 }
 
-.main__container p span{
+.main__container p span {
     /*background-color: red;*/
     border-radius: 10%;
     margin: 0px 1px;
@@ -97,12 +97,6 @@
 
 }
 
-.main__container p span.correct {
-    background-color: green;
-}
 
-.main__container p span.incorrect {
-    background-color: red;
-}
 
 

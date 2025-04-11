@@ -1,6 +1,8 @@
 const typingBox = document.getElementById("codeChunk");
 
-let index, currCharIndex = 0;
+let index, currCharIndex, total, correct = 0;
+let charSpans, chars;
+
 
 const code = [
     "for (int i = 0; i < 200; i++) {\n\tbuffer[i] = 0;\n}",
@@ -30,7 +32,7 @@ function codeChooser() {
             typingBox.innerHTML += `<span>${chunk[i]}</span>`; // if not, just wrap it in a span normally
         }
     }
-
+    typingBox.querySelectorAll("span")[0].classList.add("active");
     currCharIndex = 0;
     
 }
@@ -38,63 +40,108 @@ function codeChooser() {
 
 document.body.addEventListener("keydown", function(e) {
 
-    let charSpans = typingBox.querySelectorAll("span");
+    charSpans = typingBox.querySelectorAll("span"); // list of all the spans that make up the code chunk
+    chars = code[index]; // the long string of the code chunk
 
-    let chars = code[index];
-
-    charSpans[currCharIndex].classList.add("active");
-    if (currCharIndex > 0) {
-        charSpans[currCharIndex - 1].classList.add("inactive");
-    }
+    
     
     if (e.shiftKey) { // For uppercase characters
         
         if (e.key === 'Shift') { // incredibly sloppy way to make the shift key not be counted as character
             // this is bad, find another way
         } else if (e.key === chars.charAt(currCharIndex)) {
-            charSpans[currCharIndex].style.backgroundColor = "green";
-            currCharIndex++;
+            makeCorrect(charSpans[currCharIndex]);
+            //currCharIndex++; // can't do this outside of if's or else just pressing shift will inc index
+            incIndex();
         } else {
-            charSpans[currCharIndex].style.backgroundColor = "red";
-            currCharIndex++;
+            makeIncorrect(charSpans[currCharIndex]);
+            //currCharIndex++;
+            incIndex();
         }
         
         
     } else if (e.key === 'Backspace') {
+        charSpans[currCharIndex].classList.remove("active");
+
         if (currCharIndex > 0) { // dec index unless we are at the start of the code chunk
             currCharIndex--;
         }
-        charSpans[currCharIndex].style.backgroundColor = "#626262"; //remove any color around the character
+        if (charSpans[currCharIndex].classList.contains("correct")) {
+            charSpans[currCharIndex].classList.remove("correct");
+        } else if (charSpans[currCharIndex].classList.contains("incorrect")) {
+            charSpans[currCharIndex].classList.remove("incorrect");
+        }
         
     } else if (e.key === 'Enter') {
         if (chars.charAt(currCharIndex) === '\n') {
-            charSpans[currCharIndex].style.backgroundColor = "green";
+            makeCorrect(charSpans[currCharIndex]);
         } else {
-            charSpans[currCharIndex].style.backgroundColor = "red";
+            makeIncorrect(charSpans[currCharIndex]);
         }
-        currCharIndex++;
+        //currCharIndex++;
+        incIndex();
 
     } else if (e.key === 'Tab') {
+        e.preventDefault(); // to stop going into search bar
         if (chars.charAt(currCharIndex) === '\t') {
-            charSpans[currCharIndex].style.backgroundColor = "green";
+            makeCorrect(charSpans[currCharIndex]);
         } else {
-            charSpans[currCharIndex].style.backgroundColor = "red";
+            makeIncorrect(charSpans[currCharIndex]);
         }
-        currCharIndex++;
+        //currCharIndex++;
+        incIndex();
     
     } else { // Normal case, just typing character
 
-        if (e.key === chars.charAt(currCharIndex)) {
-            charSpans[currCharIndex].style.backgroundColor = "green";
-        } else {
-            charSpans[currCharIndex].style.backgroundColor = "red";
+        if (e.key === " ") {
+            e.preventDefault(); // to stop opening language selector
         }
-        currCharIndex++;
+        if (e.key === chars.charAt(currCharIndex)) {
+            makeCorrect(charSpans[currCharIndex]);
+        } else {
+            makeIncorrect(charSpans[currCharIndex]);
+        }
+        //currCharIndex++;
+        incIndex();
+    }
+
+    // make the next span active
+    charSpans[currCharIndex].classList.add("active");
+
+    // make the previously typed span not active
+    if (currCharIndex > 0) {
+        charSpans[currCharIndex - 1].classList.remove("active");
     }
 
     
 
 });
+
+function makeCorrect(charSpan) {
+    charSpan.classList.add("correct");
+    correct++;
+    total++;
+}
+
+function makeIncorrect(charSpan) {
+    charSpan.classList.add("incorrect");
+    total++;
+}
+
+function incIndex() {
+    if (currCharIndex === charSpans.length - 1) { // if the last character was just typed
+        charSpans[currCharIndex].classList.remove("active");
+    } else {
+        currCharIndex++; // inc to the next span
+        // charSpans[currCharIndex].classList.add("active"); //and make it active
+
+        // // make the previously typed span not active
+        // if (currCharIndex > 0) {
+        //     charSpans[currCharIndex - 1].classList.remove("active");
+        // }
+        
+    }
+}
 
 
 codeChooser();

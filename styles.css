@@ -85,16 +85,71 @@
     font-size: 2rem;
     color: white;
     white-space: pre;
+    opacity: 80%;
 
 }
 
 .main__container p span {
-    /*background-color: red;*/
     border-radius: 10%;
     margin: 0px 1px;
     padding: 0px 1px;
-    opacity: 100%;
+    opacity: 75%;
 
+}
+
+.main__container p span.active {
+    opacity: 100%;
+    color: #6a88bd;
+    animation: blink 1s ease-in-out infinite alternate;
+    /* animation-direction: alternate; */
+    /* background-color: white; */
+}
+
+/* .main__container p span.active::before {
+    /* position: absolute;
+    content: "fart";
+    height: 2px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    opacity: 100%;
+    border-radius: 10%;
+    animation: blink 1s ease-in-out infinite; */
+    /* position: absolute;
+    content: "";
+    background-color: white;
+    height: 3px;
+    width: 18px;
+    animation: blink 1s ease-in-out infinite alternate;
+    
+    
+}*/
+@keyframes blink {
+    from {color: #6a88bd;}
+    to {color: white;}
+  } 
+
+
+
+
+.main__container p span.correct {
+    opacity: 100%;
+}
+
+.main__container p span.incorrect {
+    background-color: red;
+    opacity: 100%;
+}
+
+/* .main__container p span.active {
+    height: 2px;
+    animation: blink 2s ease-in-out infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+  from {background-color: white;}
+  to {background-color: #6a88bd;}
 }
 
 
